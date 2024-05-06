@@ -14,13 +14,44 @@ type WinnerDetails = { id: number; name: string; color: string; wins: number; ti
 
 export function Winners() {
   const [winners, setWinners] = useState<WinnerDetails[]>([]);
-  const [pageNumber, setPageNumber] = useSearchParams();
+  const [queryParams, setQueryParams] = useSearchParams();
+  const [sortField, setSortField] = useState("");
+  const [sortDirection, setSortDirection] = useState("");
+
+  const upChevron = (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.5}
+      stroke="currentColor"
+      className="w-6 h-6"
+    >
+      <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 18.75 7.5-7.5 7.5 7.5" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 12.75 7.5-7.5 7.5 7.5" />
+    </svg>
+  );
+
+  const downChevron = (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      fill="none"
+      viewBox="0 0 24 24"
+      strokeWidth={1.5}
+      stroke="currentColor"
+      className="w-6 h-6"
+    >
+      <path strokeLinecap="round" strokeLinejoin="round" d="m4.5 5.25 7.5 7.5 7.5-7.5m-15 6 7.5 7.5 7.5-7.5" />
+    </svg>
+  );
 
   let winnerDetails: WinnerDetails[] = [];
 
   async function getWinners(limit: number = 10) {
-    const pageNum = pageNumber.get("_page") ? pageNumber.get("_page") : "1";
-    const resp = await fetch(`http://localhost:3000/winners?_page=${pageNum}&_limit=${limit}`);
+    const pageNum = queryParams.get("_page") ? queryParams.get("_page") : "1";
+    const sort = queryParams.get("_sort") ? `&_sort=${queryParams.get("_sort")}` : ''
+    const order = queryParams.get("_order") ? `&_order=${queryParams.get("_order")}` : ''
+    const resp = await fetch(`http://localhost:3000/winners?_page=${pageNum}&_limit=${limit}${sort}${order}`);
     const winnersData = await resp.json();
 
     const winnerPromises = winnersData.map(async (elem: Winner) => {
@@ -99,16 +130,34 @@ export function Winners() {
     );
   }
 
+  function setOrdering(fieldName: string) {
+    if (!queryParams.get("_sort") || fieldName !== queryParams.get("_sort")) {
+      // setPageNumber({ _page: pageNum.toString()})
+      queryParams.set("_sort", fieldName);
+      queryParams.set("_order", "ASC");
+      setQueryParams(queryParams);
+    } else if (queryParams.get("_sort") === fieldName && queryParams.get("_order") === "ASC") {
+      console.log(queryParams.get("_sort"));
+      queryParams.set("_sort", fieldName);
+      queryParams.set("_order", "DESC");
+      setQueryParams(queryParams);
+    } else if (queryParams.get("_sort") === fieldName && queryParams.get("_order") === "DESC") {
+      queryParams.set("_sort", "");
+      queryParams.set("_order", "");
+      setQueryParams(queryParams);
+    }
+  }
+
   useEffect(() => {
-    if (!pageNumber.get("_page")) {
-      setPageNumber({ _page: "1" });
+    if (!queryParams.get("_page")) {
+      setQueryParams({ _page: "1" });
     }
     getWinners();
   }, []);
 
   useEffect(() => {
     getWinners();
-  }, [pageNumber]);
+  }, [queryParams]);
 
   return (
     <div className="">
@@ -120,17 +169,29 @@ export function Winners() {
               <th>Id</th>
               <th>Model</th>
               <th>Car</th>
-              <th>Wins</th>
-              <th>Best Time</th>
+              <th>
+                <button className="flex" onClick={() => setOrdering("wins")}>
+                  Wins
+                  {queryParams.get("_sort") === "wins" && queryParams.get("_order") === "ASC" ? upChevron : ""}
+                  {queryParams.get("_sort") === "wins" && queryParams.get("_order") === "DESC" ? downChevron : ""}
+                </button>
+              </th>
+              <th>
+                <button onClick={() => setOrdering("time")} className="flex">
+                  Best Time
+                  {queryParams.get("_sort") === "time" && queryParams.get("_order") === "ASC" ? upChevron : ""}
+                  {queryParams.get("_sort") === "time" && queryParams.get("_order") === "DESC" ? downChevron : ""}
+                </button>
+              </th>
             </tr>
             {winners.map((trEl) => {
               return (
                 <tr key={trEl.id}>
-                  {Object.values(trEl).map((tdEl) => {
-                    if (typeof tdEl === "string" && tdEl.startsWith("#")) {
-                      return <td>{getColoredCar(tdEl)}</td>;
+                  {Object.entries(trEl).map(([key, value]) => {
+                    if (typeof value === "string" && value.startsWith("#")) {
+                      return <td key={key + "-" + trEl.id}>{getColoredCar(value)}</td>;
                     }
-                    return <td className="px-10">{tdEl} </td>;
+                    return <td className="px-10" key={key}>{value}</td>;
                   })}
                 </tr>
               );
@@ -139,7 +200,7 @@ export function Winners() {
         </div>
       )}
       <div className="flex justify-around mt-[2%]">
-        <Pagination pageNumber={pageNumber} setPageNumber={setPageNumber} />
+        <Pagination pageNumber={queryParams} setPageNumber={setQueryParams} />
       </div>
     </div>
   );
