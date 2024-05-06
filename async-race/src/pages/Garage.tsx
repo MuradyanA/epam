@@ -8,6 +8,7 @@ import { EngineManagement } from "../components/EngineManagement";
 import Modal from "../components/Modal";
 import { url } from "inspector";
 import Pagination from "../components/Pagination";
+import CarsGenerator from "../components/CarsGenerator";
 
 export interface RaceResult {
   id: number;
@@ -21,8 +22,8 @@ export interface CarProps {
   setRaceResults: (raceResults: RaceResult[] | []) => void;
   addResult: (res: RaceResult) => void;
   setRaceFlag: (raceFlag: number) => void;
-  setCar: (car : ICar) => void
-  setUpdateFlag: (updateFlag : boolean) => void; 
+  setCar: (car: ICar) => void;
+  setUpdateFlag: (updateFlag: boolean) => void;
 }
 
 export type Winner = (RaceResult & { carName: string }) | undefined;
@@ -133,7 +134,10 @@ export function Garage() {
       <Nav />
       <div>
         <CarManagement car={car} setCar={setCar} setUpdateFlag={setUpdateFlag} />
-        <EngineManagement setRaceFlag={setRaceFlag} />
+        <div className="flex flex-rows">
+          <EngineManagement setRaceFlag={setRaceFlag} />
+          <CarsGenerator setUpdateFlag={setUpdateFlag} />
+        </div>
       </div>
       <div className="absolute flex flex-col items-start justify-start gap-2">
         {cars.map((el) => (

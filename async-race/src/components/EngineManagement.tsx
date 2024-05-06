@@ -6,7 +6,7 @@ type SetRaceFlag = {
 
 export function EngineManagement({setRaceFlag} : SetRaceFlag) {
   return (
-    <div className="flex min-w-min my-3 mx-3">
+    <div className="flex min-w-min my-3 mx-3 w-fit">
       <button onClick={() => setRaceFlag(-999)} className="inline-flex items-center hover:bg-green-600 duration-300 bg-green-400 p-2 border-2 border-green-600 rounded-md font-semibold text-xl">
         Race
         <svg
