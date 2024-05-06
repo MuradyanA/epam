@@ -36,11 +36,13 @@ export function Garage() {
   const [raceResults, setRaceResults] = useState<RaceResult[]>([]);
   const [raceWinner, setRaceWinner] = useState<Winner>();
   const [pageNumber, setPageNumber] = useSearchParams();
+  const [totalCarsNumber, setTotalCarsNumber] = useState(0)
 
   async function fetchData(url: string, page: number = 1, limit: number = 7) {
     try {
       const resp = await fetch(url + `?_page=${page}&_limit=${limit}`);
       if (!resp.ok) throw resp.statusText;
+      setTotalCarsNumber(Number(resp.headers.get("X-Total-Count")))
       const data = await resp.json();
       setCars(data);
     } catch (e) {
@@ -134,7 +136,8 @@ export function Garage() {
       <Nav />
       <div>
         <CarManagement car={car} setCar={setCar} setUpdateFlag={setUpdateFlag} />
-        <div className="flex flex-rows">
+        <p className="ml-[1%] rounded-md text-white w-fit bg-gray-600 opacity-90 p-2 text-xl">Total Cars Count: {totalCarsNumber}</p>
+        <div className="flex flex-rows items-center">
           <EngineManagement setRaceFlag={setRaceFlag} />
           <CarsGenerator setUpdateFlag={setUpdateFlag} />
         </div>
