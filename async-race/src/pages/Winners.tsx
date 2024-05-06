@@ -18,7 +18,7 @@ export function Winners() {
 
   let winnerDetails: WinnerDetails[] = [];
 
-  async function getWinners(limit: number = 5) {
+  async function getWinners(limit: number = 10) {
     const pageNum = pageNumber.get("_page") ? pageNumber.get("_page") : "1";
     const resp = await fetch(`http://localhost:3000/winners?_page=${pageNum}&_limit=${limit}`);
     const winnersData = await resp.json();
