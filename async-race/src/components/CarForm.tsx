@@ -23,7 +23,6 @@ export function CarForm({ car, updateCar, setUpdateFlag }: CarFormProps) {
       setError("Name is required!");
       return;
     }
-    console.log(id)
     if (id) {
       method = "PUT";
       url = `http://localhost:3000/garage/${id}`;
@@ -42,11 +41,8 @@ export function CarForm({ car, updateCar, setUpdateFlag }: CarFormProps) {
     }
     try {
       let resp = await fetch(url, {
-        // Adding method type
         method: method,
-        // Adding body or contents to send
         body: JSON.stringify(body),
-        // Adding headers to the request
         headers: {
           "Content-type": "application/json; charset=UTF-8",
         },
@@ -54,7 +50,6 @@ export function CarForm({ car, updateCar, setUpdateFlag }: CarFormProps) {
 
       if (!resp.ok) throw resp.statusText;
       const data = await resp.json();
-      // updateCar(data);
       setUpdateFlag(true);
     } catch (e) {
       console.error(e);

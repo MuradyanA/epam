@@ -128,12 +128,10 @@ export function Winners() {
 
   function setOrdering(fieldName: "wins" | "time") {
     if (!queryParams.get("_sort") || fieldName !== queryParams.get("_sort")) {
-      // setPageNumber({ _page: pageNum.toString()})
       queryParams.set("_sort", fieldName);
       queryParams.set("_order", "ASC");
       setQueryParams(queryParams);
     } else if (queryParams.get("_sort") === fieldName && queryParams.get("_order") === "ASC") {
-      console.log(queryParams.get("_sort"));
       queryParams.set("_sort", fieldName);
       queryParams.set("_order", "DESC");
       setQueryParams(queryParams);

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Nav } from "../components/Nav";
 import { Car } from "../components/Car";
 import { ICar } from "./ICar";
@@ -6,7 +7,6 @@ import { useSearchParams } from "react-router-dom";
 import { CarManagement } from "../components/CarManagement";
 import { EngineManagement } from "../components/EngineManagement";
 import Modal from "../components/Modal";
-import { url } from "inspector";
 import Pagination from "../components/Pagination";
 import CarsGenerator from "../components/CarsGenerator";
 
