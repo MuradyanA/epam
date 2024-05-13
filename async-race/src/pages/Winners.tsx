@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Nav } from "../components/Nav";
-import { ICar } from "./ICar";
 import { useSearchParams } from "react-router-dom";
 import Pagination from "../components/Pagination";
 
@@ -15,8 +14,6 @@ type WinnerDetails = { id: number; name: string; color: string; wins: number; ti
 export function Winners() {
   const [winners, setWinners] = useState<WinnerDetails[]>([]);
   const [queryParams, setQueryParams] = useSearchParams();
-  const [sortField, setSortField] = useState("");
-  const [sortDirection, setSortDirection] = useState("");
 
   const upChevron = (
     <svg
@@ -45,7 +42,6 @@ export function Winners() {
     </svg>
   );
 
-  let winnerDetails: WinnerDetails[] = [];
 
   async function getWinners(limit: number = 10) {
     const pageNum = queryParams.get("_page") ? queryParams.get("_page") : "1";
@@ -130,7 +126,7 @@ export function Winners() {
     );
   }
 
-  function setOrdering(fieldName: string) {
+  function setOrdering(fieldName: "wins" | "time") {
     if (!queryParams.get("_sort") || fieldName !== queryParams.get("_sort")) {
       // setPageNumber({ _page: pageNum.toString()})
       queryParams.set("_sort", fieldName);
