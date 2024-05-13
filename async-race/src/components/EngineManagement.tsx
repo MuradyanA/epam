@@ -1,7 +1,7 @@
 import { RaceResult } from "../pages/Garage";
 
 type SetRaceFlag = {
-  setRaceFlag: (raceFlag: number) => void;
+  setRaceFlag: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export function EngineManagement({setRaceFlag} : SetRaceFlag) {

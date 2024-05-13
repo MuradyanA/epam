@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-import { ICar } from "../pages/ICar";
-import { RaceResult } from "../pages/Garage";
 import { CarProps } from "../pages/Garage";
 
 export function Car({ addResult, raceResults, setRaceResults, setUpdateFlag, setRaceFlag, setCar, raceFlag, data }: CarProps) {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Nav } from "../components/Nav";
 import { Car } from "../components/Car";
 import { ICar } from "./ICar";
@@ -38,6 +38,8 @@ export function Garage() {
   const [pageNumber, setPageNumber] = useSearchParams();
   const [totalCarsNumber, setTotalCarsNumber] = useState(0)
 
+  if(!pageNumber.get("_page")) setPageNumber({_page: "1"})
+
   async function fetchData(url: string, page: number = 1, limit: number = 7) {
     try {
       const resp = await fetch(url + `?_page=${page}&_limit=${limit}`);
@@ -45,6 +47,7 @@ export function Garage() {
       setTotalCarsNumber(Number(resp.headers.get("X-Total-Count")))
       const data = await resp.json();
       setCars(data);
+      setUpdateFlag(false)
     } catch (e) {
       console.error(e);
     }
@@ -81,8 +84,6 @@ export function Garage() {
       } else {
         const winsCount = winnerData.wins + 1;
         const winTime = winner.time < winnerData.time ? winner.time : winnerData.time;
-        console.log(winner.time, winnerData.time);
-        console.log(winsCount, winTime);
         const res = await fetch(`http://localhost:3000/winners/${winner.id}`, {
           method: "PUT",
           body: JSON.stringify({
@@ -93,27 +94,28 @@ export function Garage() {
             "Content-type": "application/json; charset=UTF-8",
           },
         });
-        console.log(winnerResp.status);
       }
     } catch (e) {
       console.log(e);
     }
   }
 
-  useEffect(() => {
-    fetchData("http://localhost:3000/garage");
-  }, []);
+  // useEffect(() => {
+  //   fetchData("http://localhost:3000/garage");
+  // }, []);
 
-  useEffect(() => {
-    if (updateFlag) {
-      fetchData("http://localhost:3000/garage");
-    }
-  }, [updateFlag]);
+  // useEffect(() => {
+  //   if (updateFlag) {
+  //     fetchData("http://localhost:3000/garage");
+  //     console.log('on flag update')
+  //   }
+  // }, [updateFlag]);
 
   useEffect(() => {
     // pageNumber.get('_page')
     fetchData("http://localhost:3000/garage", Number(pageNumber.get("_page")));
-  }, [pageNumber]);
+    console.log('on page update')
+  }, [updateFlag, pageNumber]);
 
   useEffect(() => {
     let smallestTimeResult: RaceResult = raceResults[0];
@@ -178,7 +180,7 @@ export function Garage() {
           <div className="font-bold">FINISH</div>
         </div>
       </div>
-      {raceWinner && <Modal setRaceResults={setRaceResults} setRaceWinner={setRaceWinner} raceWinner={raceWinner} />}
+      {raceWinner && <Modal setRaceResults={ setRaceResults} setRaceWinner={setRaceWinner} raceWinner={raceWinner} />}
       <div className="flex justify-around mt-[2%]">
         <Pagination pageNumber={pageNumber} setPageNumber={setPageNumber} />
       </div>
