@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useEffect, useState } from "react";
 import { Nav } from "../components/Nav";
 import { Car } from "../components/Car";
 import { ICar } from "./ICar";
@@ -100,21 +99,8 @@ export function Garage() {
     }
   }
 
-  // useEffect(() => {
-  //   fetchData("http://localhost:3000/garage");
-  // }, []);
-
-  // useEffect(() => {
-  //   if (updateFlag) {
-  //     fetchData("http://localhost:3000/garage");
-  //     console.log('on flag update')
-  //   }
-  // }, [updateFlag]);
-
   useEffect(() => {
-    // pageNumber.get('_page')
     fetchData("http://localhost:3000/garage", Number(pageNumber.get("_page")));
-    console.log('on page update')
   }, [updateFlag, pageNumber]);
 
   useEffect(() => {

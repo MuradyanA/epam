@@ -4,11 +4,11 @@ import { useEffect, useState } from "react";
 
 interface CarManagementProps {
   car: ICar;
-  setCar: React.Dispatch<React.SetStateAction<ICar>>;
-  setUpdateFlag: React.Dispatch<React.SetStateAction<boolean>>;
+  setCar: (car: ICar) => void;
+  setUpdateFlag: (updateFlag:boolean) => void;
 }
 
-export function CarManagement({ car, setCar, setUpdateFlag }: CarManagementProps) {
+export const CarManagement: React.FC<CarManagementProps> = ({ car, setCar, setUpdateFlag }) => {
   const [newCar, setNewCar] = useState<ICar>();
   useEffect(() => {}, []);
 
@@ -18,4 +18,4 @@ export function CarManagement({ car, setCar, setUpdateFlag }: CarManagementProps
       <CarForm car={car} updateCar={setCar} setUpdateFlag={setUpdateFlag} />
     </div>
   );
-}
+};

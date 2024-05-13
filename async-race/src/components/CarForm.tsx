@@ -4,7 +4,7 @@ import { ICar } from "../pages/ICar";
 interface CarFormProps {
   car: ICar | undefined;
   updateCar: (newUCar: ICar) => void;
-  setUpdateFlag:  React.Dispatch<React.SetStateAction<boolean>>;
+  setUpdateFlag: (updateFlag: boolean) => void;
 }
 
 export function CarForm({ car, updateCar, setUpdateFlag }: CarFormProps) {

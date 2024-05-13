@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { ICar } from "../pages/ICar";
 
 interface CarProps {
-  setUpdateFlag:  React.Dispatch<React.SetStateAction<boolean>>;
+  setUpdateFlag: (updateFlag: boolean) => void;
 }
 
 interface Car {
