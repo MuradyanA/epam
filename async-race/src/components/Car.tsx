@@ -17,7 +17,6 @@ export function Car({ addResult, raceResults, setRaceResults, setUpdateFlag, set
       };
 
       try {
-        console.log(22222);
         const startEngineResp = await fetch(requestParams.url, requestParams);
         if (!startEngineResp.ok) throw startEngineResp.statusText;
         let respObj = await startEngineResp.json();

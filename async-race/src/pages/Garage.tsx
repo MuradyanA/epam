@@ -6,7 +6,6 @@ import { useSearchParams } from "react-router-dom";
 import { CarManagement } from "../components/CarManagement";
 import { EngineManagement } from "../components/EngineManagement";
 import Modal from "../components/Modal";
-import { url } from "inspector";
 import Pagination from "../components/Pagination";
 import CarsGenerator from "../components/CarsGenerator";
 
@@ -100,21 +99,8 @@ export function Garage() {
     }
   }
 
-  // useEffect(() => {
-  //   fetchData("http://localhost:3000/garage");
-  // }, []);
-
-  // useEffect(() => {
-  //   if (updateFlag) {
-  //     fetchData("http://localhost:3000/garage");
-  //     console.log('on flag update')
-  //   }
-  // }, [updateFlag]);
-
   useEffect(() => {
-    // pageNumber.get('_page')
     fetchData("http://localhost:3000/garage", Number(pageNumber.get("_page")));
-    console.log('on page update')
   }, [updateFlag, pageNumber]);
 
   useEffect(() => {

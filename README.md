@@ -1,4 +1,4 @@
-Calculated points 355
+Calculated points 365
 
 1. View Configuration (30 points)
  + Two Views (10 points): Implement two primary views: "Garage" and "Winners".
@@ -27,7 +27,7 @@ Car Generation (10 points)
  + Display Winners (15 points): After some car wins it should be displayed at the "Winners view" table.
  + Pagination for Winners (10 points): Implement pagination for the "Winners" view, with 10 winners per page.
  + Winners Table (10 points): The table should include columns for the car's №, image, name, number of wins, and best time in seconds. If the same car wins more than once the number of wins should be incremented while best time should be saved only if it's better than the stored one.
- - Sorting Functionality (10 points): Allow users to sort the table by the number of wins and best time, in ascending or descending order.
+ + Sorting Functionality (10 points): Allow users to sort the table by the number of wins and best time, in ascending or descending order.
 🏗️ Application Architecture (40 points)
  + Modular Design (40 points): The application should be clearly divided into logical modules or layers, such as API interaction, UI rendering, and state management. Consultation with a mentor on the architecture before implementation is advised.
 📜 Dynamic Content Generation (30 points)
